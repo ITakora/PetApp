@@ -1,6 +1,9 @@
 package hoods.com.jetpetrescue.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,9 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -31,22 +34,22 @@ fun PetInfoComponent() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+
     ) {
-        Row {
+        Row() {
             Card(elevation = 3.dp, shape = RoundedCornerShape(8.dp)) {
                 Image(
                     modifier = Modifier
                         .size(80.dp, 80.dp),
-
-
                     painter = painterResource(id = R.drawable.pet_eight),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
 
                     )
             }
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(18.dp))
             Column {
                 Text(
                     text = "Peter",
@@ -81,18 +84,37 @@ fun PetInfoComponent() {
                     )
                 }
             }
-
-            Column (modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, modifier = Modifier.align(alignment = Alignment.End), colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray, contentColor = MaterialTheme.colors.onSurface) ) {
-                    Text(text = "Male")
-
-
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(text = "Adoptable", modifier = Modifier.align(alignment = Alignment.End), style = MaterialTheme.typography.caption, color = MaterialTheme.colors.onSurface)
-
             }
+        Column(modifier =Modifier.height(77.5.dp),verticalArrangement = Arrangement.SpaceBetween) {
+            GenderTag(gender = "Male", modifier = Modifier)
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Adoptable",
+                modifier = Modifier.align(alignment = Alignment.End),
+                style = MaterialTheme.typography.caption,
+                color = MaterialTheme.colors.onSurface
+            )
         }
+    }
+}
+
+
+@Composable
+fun GenderTag(gender: String, modifier: Modifier) {
+    val color = if (gender == "male") {
+        Color.Blue
+    } else {
+        Color.Red
+    }
+
+    Box(
+        modifier = modifier
+            .wrapContentSize()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color.copy(alpha = .2f))
+
+    ) {
+        Text(text = gender, modifier = Modifier.padding(12.dp, 4.dp, 12.dp, 6.dp ), style = MaterialTheme.typography.caption, color = color)
     }
 }
 
