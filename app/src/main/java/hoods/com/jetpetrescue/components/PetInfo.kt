@@ -2,6 +2,7 @@ package hoods.com.jetpetrescue.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,14 +29,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import hoods.com.jetpetrescue.R
+import hoods.com.jetpetrescue.data.DummyPetDataSource
+import hoods.com.jetpetrescue.data.model.Pet
 
 @Composable
-fun PetInfoComponent() {
+fun PetInfoComponent(pet: Pet, onPetItemClick:(Pet) -> Unit) {
     Card(
         elevation = 5.dp,
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
-    ) {
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 9.dp)
+            .clickable {onPetItemClick(pet) }
+            .fillMaxWidth(),
+        backgroundColor = MaterialTheme.colors.surface,
+
+        ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -48,16 +56,16 @@ fun PetInfoComponent() {
                     Image(
                         modifier = Modifier
                             .size(80.dp, 80.dp),
-                        painter = painterResource(id = R.drawable.pet_eight),
+                        painter = painterResource(id =pet.image),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
-
-                        )
+                        alignment = Alignment.CenterStart
+                    )
                 }
                 Spacer(modifier = Modifier.size(18.dp))
-                Column {
+                Column(modifier = Modifier.align(alignment = Alignment.CenterVertically)) {
                     Text(
-                        text = "Peter",
+                        text = pet.name,
                         color = MaterialTheme.colors.onSurface,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.subtitle1
@@ -66,23 +74,23 @@ fun PetInfoComponent() {
                     Row {
                         Text(
                             text = buildString {
-                                append("Adult")
+                                append(pet.age)
                                 append(" | ")
-                                append("Persia")
+                                append(pet.breed)
                             },
                             color = MaterialTheme.colors.onSurface,
                             style = MaterialTheme.typography.caption,
                         )
                     }
                     Spacer(modifier = Modifier.height(13.dp))
-                    Row {
+                    Row(verticalAlignment = Alignment.Bottom) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_location),
                             contentDescription = null,
                             tint = Color.Red
                         )
                         Text(
-                            text = "Toronto CA",
+                            text = pet.location,
                             color = MaterialTheme.colors.onSurface,
                             style = MaterialTheme.typography.caption,
                             modifier = Modifier.padding(start = 5.dp)
@@ -96,7 +104,7 @@ fun PetInfoComponent() {
                     .padding(end = 16.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                GenderTag(gender = "Male", modifier = Modifier)
+                GenderTag(gender = pet.gender, modifier = Modifier,)
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "Adoptable",
@@ -113,7 +121,7 @@ fun PetInfoComponent() {
 
 @Composable
 fun GenderTag(gender: String, modifier: Modifier) {
-    val color = if (gender == "male") {
+    val color = if (gender == "Male") {
         Color.Blue
     } else {
         Color.Red
@@ -138,5 +146,8 @@ fun GenderTag(gender: String, modifier: Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun PetPreview() {
-    PetInfoComponent()
+    val petItem = DummyPetDataSource.dogList.random()
+    PetInfoComponent(petItem){
+
+    }
 }
