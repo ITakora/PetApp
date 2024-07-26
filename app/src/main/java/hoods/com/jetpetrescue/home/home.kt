@@ -5,26 +5,35 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import hoods.com.jetpetrescue.components.PetInfoComponent
 import hoods.com.jetpetrescue.components.TopBar
 import hoods.com.jetpetrescue.data.DummyPetDataSource
 
-@SuppressLint("SuspiciousIndentation")
+
 @Composable
 fun HomeScreens(
-    onSwitchClick : () -> Unit,
+    onSwitchClick: () -> Unit,
     onPetClick: (Int) -> Unit
 ) {
     val petList = DummyPetDataSource.dogList
 
-        Scaffold (topBar =  { TopBar{onSwitchClick.invoke()}} ) { paddingValues ->
-            LazyColumn(contentPadding = paddingValues) {
-                itemsIndexed(petList){index,pet ->
-                    PetInfoComponent(pet =pet ) {
-                        onPetClick(index)
-                    }
+    Scaffold(topBar = { TopBar { onSwitchClick.invoke() } }) { paddingValues ->
+        LazyColumn(contentPadding = paddingValues) {
+            itemsIndexed(petList) { index, pet ->
+                PetInfoComponent(pet = pet) {
+                    onPetClick(index)
                 }
             }
-
         }
+
+    }
+}
+
+@Preview
+@Composable
+private fun PrevHome() {
+    HomeScreens(onSwitchClick = { /*TODO*/ }) {
+        
+    }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -120,7 +121,7 @@ fun PetInfoComponent(pet: Pet, onPetItemClick:(Pet) -> Unit) {
 
 
 @Composable
-fun GenderTag(gender: String, modifier: Modifier) {
+fun GenderTag(gender: String, modifier: Modifier, style: TextStyle = MaterialTheme.typography.caption,) {
     val color = if (gender == "Male") {
         Color.Blue
     } else {
@@ -137,7 +138,7 @@ fun GenderTag(gender: String, modifier: Modifier) {
         Text(
             text = gender,
             modifier = Modifier.padding(12.dp, 4.dp, 12.dp, 6.dp),
-            style = MaterialTheme.typography.caption,
+            style = style,
             color = color
         )
     }
